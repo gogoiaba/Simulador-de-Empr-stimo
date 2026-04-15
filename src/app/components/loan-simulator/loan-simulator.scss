@@ -4,42 +4,49 @@
 
 .simulator-shell {
   display: grid;
-  gap: 1.5rem;
+  gap: clamp(1rem, 2vw, 1.5rem);
 }
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.9fr);
+  grid-template-columns: minmax(0, 1.5fr) minmax(270px, 0.95fr);
   gap: 1rem;
   align-items: stretch;
+}
+
+.hero-copy-block {
+  min-width: 0;
 }
 
 .eyebrow,
 .section-label {
   margin: 0 0 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #7a6142;
 }
 
 .hero h1,
-.result-header h2 {
+.result-header h2,
+.schedule-panel h2,
+.form-panel h2 {
   margin: 0;
   color: #1f2937;
 }
 
 .hero h1 {
-  font-size: clamp(2.2rem, 4vw, 3.5rem);
-  line-height: 1.05;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.02;
+  text-wrap: balance;
 }
 
 .hero-copy {
-  margin: 1rem 0 0;
+  margin: 0.9rem 0 0;
   max-width: 42rem;
-  font-size: 1rem;
-  line-height: 1.7;
+  font-size: clamp(1rem, 2vw, 1.08rem);
+  line-height: 1.75;
   color: #4b5563;
 }
 
@@ -63,7 +70,7 @@
 }
 
 .hero-note span {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -71,9 +78,10 @@
 }
 
 .hero-note strong {
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: clamp(0.95rem, 2vw, 1rem);
+  line-height: 1.7;
   color: #1e3a8a;
+  word-break: break-word;
 }
 
 .content-grid {
@@ -83,18 +91,23 @@
 }
 
 .panel {
-  padding: 1.5rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+.form-panel,
+.result-panel,
+.schedule-panel {
+  min-width: 0;
 }
 
 .form-panel h2,
 .schedule-panel h2 {
-  margin: 0 0 1.25rem;
-  color: #1f2937;
+  margin-bottom: 1.25rem;
 }
 
 .field-group {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.55rem;
   margin-bottom: 1rem;
 }
 
@@ -106,11 +119,14 @@
 
 .field-group input {
   width: 100%;
+  min-width: 0;
+  min-height: 56px;
   border: 1px solid #d6c8b4;
-  border-radius: 14px;
+  border-radius: 16px;
   background: #fffdfa;
-  padding: 0.95rem 1rem;
+  padding: 1rem 1rem;
   font: inherit;
+  font-size: 1rem;
   color: #1f2937;
   transition:
     border-color 0.2s ease,
@@ -128,7 +144,7 @@
 button {
   width: 100%;
   border: 0;
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 1rem 1.2rem;
   font: inherit;
   font-weight: 700;
@@ -148,7 +164,7 @@ button:hover {
 .feedback {
   margin: 1rem 0 0;
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .feedback.helper {
@@ -162,26 +178,28 @@ button:hover {
 .result-header {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  align-items: start;
+  gap: 0.75rem;
+  align-items: flex-start;
   margin-bottom: 1.25rem;
 }
 
 .status-chip {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   padding: 0.45rem 0.8rem;
   border-radius: 999px;
   background: #dcfce7;
   color: #166534;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .highlight-card {
   display: grid;
   gap: 0.45rem;
-  padding: 1.5rem;
+  padding: clamp(1.1rem, 3vw, 1.5rem);
   border-radius: 20px;
   background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
   color: #eff6ff;
@@ -189,12 +207,13 @@ button:hover {
 
 .highlight-card span,
 .stat-card span {
-  font-size: 0.92rem;
+  font-size: 0.9rem;
 }
 
 .highlight-card strong {
-  font-size: clamp(2rem, 4vw, 2.7rem);
+  font-size: clamp(1.8rem, 7vw, 2.7rem);
   line-height: 1;
+  word-break: break-word;
 }
 
 .stats-grid {
@@ -207,22 +226,24 @@ button:hover {
 .stat-card {
   display: grid;
   gap: 0.4rem;
-  padding: 1.2rem;
+  padding: 1.1rem;
   border-radius: 18px;
   background: #fff;
   border: 1px solid rgba(122, 97, 66, 0.12);
+  min-width: 0;
 }
 
 .stat-card strong {
   color: #111827;
-  font-size: 1.4rem;
+  font-size: clamp(1.15rem, 4vw, 1.4rem);
+  word-break: break-word;
 }
 
 .empty-state {
   display: grid;
   place-items: center;
   min-height: 100%;
-  padding: 2.2rem;
+  padding: clamp(1.25rem, 4vw, 2.2rem);
   border: 1px dashed #d6c8b4;
   border-radius: 20px;
   text-align: center;
@@ -242,7 +263,11 @@ button:hover {
 }
 
 .empty-state.compact {
-  min-height: 200px;
+  min-height: 180px;
+}
+
+.desktop-table {
+  display: block;
 }
 
 .table-wrapper {
@@ -250,6 +275,7 @@ button:hover {
   border-radius: 18px;
   border: 1px solid rgba(122, 97, 66, 0.14);
   background: #fffdfa;
+  -webkit-overflow-scrolling: touch;
 }
 
 table {
@@ -266,7 +292,7 @@ td {
 }
 
 th {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #7a6142;
@@ -281,6 +307,109 @@ tbody tr:hover {
   background: rgba(219, 234, 254, 0.25);
 }
 
+.mobile-schedule {
+  display: none;
+}
+
+.installment-card {
+  padding: 0.4rem;
+  border-radius: 20px;
+  border: 1px solid rgba(122, 97, 66, 0.14);
+  background: #fffdfa;
+}
+
+.installment-card + .installment-card {
+  margin-top: 0.85rem;
+}
+
+.installment-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem;
+  width: 100%;
+  min-height: 72px;
+  padding: 1rem;
+  text-align: left;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(15, 118, 110, 0.08));
+  color: #111827;
+  box-shadow: none;
+}
+
+.installment-toggle:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.installment-toggle__content {
+  display: grid;
+  gap: 0.22rem;
+  min-width: 0;
+}
+
+.installment-toggle__eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7a6142;
+}
+
+.installment-toggle__content strong {
+  color: #1f2937;
+  font-size: 1.08rem;
+  line-height: 1.2;
+}
+
+.installment-toggle__content small {
+  font-size: 0.86rem;
+  color: #6b7280;
+}
+
+.installment-toggle__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: #fff;
+  color: #1d4ed8;
+  font-size: 1.3rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.installment-card__list {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0.9rem 0.8rem 0.6rem;
+}
+
+.installment-card__list div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.installment-card__list dt,
+.installment-card__list dd {
+  margin: 0;
+  font-size: 0.94rem;
+}
+
+.installment-card__list dt {
+  color: #6b7280;
+}
+
+.installment-card__list dd {
+  color: #1f2937;
+  font-weight: 700;
+  text-align: right;
+}
+
 @media (max-width: 900px) {
   .hero,
   .content-grid {
@@ -289,5 +418,61 @@ tbody tr:hover {
 
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .simulator-shell {
+    gap: 1rem;
+  }
+
+  .hero-note,
+  .panel,
+  .installment-card {
+    border-radius: 20px;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.85rem, 9vw, 2.4rem);
+    line-height: 1.05;
+  }
+
+  .hero-copy,
+  .feedback,
+  .empty-state p {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .field-group label {
+    font-size: 0.95rem;
+  }
+
+  .field-group input,
+  button {
+    min-height: 58px;
+    font-size: 1rem;
+  }
+
+  .panel {
+    padding: 1rem;
+  }
+
+  .result-header,
+  .installment-card__list div {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .status-chip {
+    width: fit-content;
+  }
+
+  .desktop-table {
+    display: none;
+  }
+
+  .mobile-schedule {
+    display: block;
   }
 }

@@ -1,9 +1,12 @@
 <section class="simulator-shell">
   <header class="hero">
-    <div>
+    <div class="hero-copy-block">
       <p class="eyebrow">Tabela Price</p>
       <h1>Simulador de Empréstimo</h1>
-      <p class="hero-copy">Preencha os dados para realizar a simulação.</p>
+      <p class="hero-copy">
+        Preencha os dados para calcular parcelas, juros e a evolução do saldo devedor com leitura
+        confortável no celular e no desktop.
+      </p>
     </div>
 
     <div class="hero-note">
@@ -113,7 +116,7 @@
     </div>
 
     @if (amortizationSchedule.length) {
-      <div class="table-wrapper">
+      <div class="table-wrapper desktop-table">
         <table>
           <thead>
             <tr>
@@ -136,6 +139,45 @@
             }
           </tbody>
         </table>
+      </div>
+
+      <div class="mobile-schedule">
+        @for (item of amortizationSchedule; track trackByInstallment($index, item)) {
+          <article class="installment-card">
+            <button
+              type="button"
+              class="installment-toggle"
+              (click)="toggleInstallmentDetails(item.installment)"
+              [attr.aria-expanded]="isInstallmentExpanded(item.installment)"
+            >
+              <div class="installment-toggle__content">
+                <span class="installment-toggle__eyebrow">Parcela {{ item.installment }}</span>
+                <strong>{{ item.payment | currency: 'BRL' : 'symbol' : '1.2-2' }}</strong>
+                <small>Toque para {{ isInstallmentExpanded(item.installment) ? 'ocultar' : 'ver' }} detalhes</small>
+              </div>
+              <span class="installment-toggle__icon">
+                {{ isInstallmentExpanded(item.installment) ? '−' : '+' }}
+              </span>
+            </button>
+
+            @if (isInstallmentExpanded(item.installment)) {
+              <dl class="installment-card__list">
+                <div>
+                  <dt>Juros</dt>
+                  <dd>{{ item.interest | currency: 'BRL' : 'symbol' : '1.2-2' }}</dd>
+                </div>
+                <div>
+                  <dt>Amortização</dt>
+                  <dd>{{ item.amortization | currency: 'BRL' : 'symbol' : '1.2-2' }}</dd>
+                </div>
+                <div>
+                  <dt>Saldo devedor</dt>
+                  <dd>{{ item.remainingBalance | currency: 'BRL' : 'symbol' : '1.2-2' }}</dd>
+                </div>
+              </dl>
+            }
+          </article>
+        }
       </div>
     } @else {
       <div class="empty-state compact">

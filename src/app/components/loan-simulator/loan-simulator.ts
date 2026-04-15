@@ -30,6 +30,7 @@ export class LoanSimulatorComponent {
   result: LoanResult | null = null;
   amortizationSchedule: AmortizationItem[] = [];
   errorMessage = '';
+  expandedInstallments = new Set<number>();
 
   calculate(): void {
     this.errorMessage = '';
@@ -37,6 +38,7 @@ export class LoanSimulatorComponent {
     if (!this.isInputValid()) {
       this.result = null;
       this.amortizationSchedule = [];
+      this.expandedInstallments.clear();
       this.errorMessage =
         'Preencha um valor maior que zero para o empréstimo e para as parcelas. A taxa de juros não pode ser negativa.';
       return;
@@ -44,6 +46,9 @@ export class LoanSimulatorComponent {
 
     this.result = this.loanService.calculateLoan(this.loanInput);
     this.amortizationSchedule = this.loanService.generateAmortizationSchedule(this.loanInput);
+    this.expandedInstallments = new Set(
+      this.amortizationSchedule.length ? [this.amortizationSchedule[0].installment] : [],
+    );
   }
 
   onAmountInput(event: Event): void {
@@ -53,6 +58,19 @@ export class LoanSimulatorComponent {
     this.loanInput.amount = numericValue;
     this.amountDisplay = numericValue > 0 ? this.formatCurrency(numericValue) : '';
     input.value = this.amountDisplay;
+  }
+
+  toggleInstallmentDetails(installment: number): void {
+    if (this.expandedInstallments.has(installment)) {
+      this.expandedInstallments.delete(installment);
+      return;
+    }
+
+    this.expandedInstallments.add(installment);
+  }
+
+  isInstallmentExpanded(installment: number): boolean {
+    return this.expandedInstallments.has(installment);
   }
 
   trackByInstallment(_: number, item: AmortizationItem): number {
