@@ -1,0 +1,147 @@
+<section class="simulator-shell">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Tabela Price</p>
+      <h1>Simulador de Empréstimo</h1>
+      <p class="hero-copy">Preencha os dados para realizar a simulação.</p>
+    </div>
+
+    <div class="hero-note">
+      <span>Fórmula aplicada</span>
+      <strong>PMT = PV * (i * (1 + i)^n) / ((1 + i)^n - 1)</strong>
+    </div>
+  </header>
+
+  <div class="content-grid">
+    <article class="panel form-panel">
+      <h2>Dados de entrada</h2>
+
+      <div class="field-group">
+        <label for="amount">Valor do empréstimo</label>
+        <input
+          id="amount"
+          type="text"
+          inputmode="numeric"
+          [value]="amountDisplay"
+          (input)="onAmountInput($event)"
+          placeholder="R$ 10.000"
+        />
+      </div>
+
+      <div class="field-group">
+        <label for="interestRate">Taxa de juros mensal (%)</label>
+        <input
+          id="interestRate"
+          type="number"
+          min="0"
+          step="0.01"
+          [(ngModel)]="loanInput.interestRate"
+          placeholder="Ex.: 1,99"
+        />
+      </div>
+
+      <div class="field-group">
+        <label for="installments">Número de parcelas</label>
+        <input
+          id="installments"
+          type="number"
+          min="1"
+          step="1"
+          [(ngModel)]="loanInput.installments"
+          placeholder="Ex.: 24"
+        />
+      </div>
+
+      <button type="button" (click)="calculate()">Simular empréstimo</button>
+
+      @if (errorMessage) {
+        <p class="feedback error">{{ errorMessage }}</p>
+      } @else {
+        <p class="feedback helper">
+          Informe os dados e clique em simular para gerar a parcela, o total pago e a tabela de
+          amortização.
+        </p>
+      }
+    </article>
+
+    <article class="panel result-panel">
+      <div class="result-header">
+        <div>
+          <p class="section-label">Resumo financeiro</p>
+          <h2>Resultado da simulação</h2>
+        </div>
+        @if (result) {
+          <span class="status-chip">Calculado</span>
+        }
+      </div>
+
+      @if (result) {
+        <div class="highlight-card">
+          <span>Parcela mensal</span>
+          <strong>{{ result.monthlyPayment | currency: 'BRL' : 'symbol' : '1.2-2' }}</strong>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span>Total pago</span>
+            <strong>{{ result.totalAmount | currency: 'BRL' : 'symbol' : '1.2-2' }}</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Total de juros</span>
+            <strong>{{ result.totalInterest | currency: 'BRL' : 'symbol' : '1.2-2' }}</strong>
+          </div>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <h3>Nenhum cálculo executado</h3>
+          <p>Use os valores ao lado para gerar um resumo financeiro do empréstimo.</p>
+        </div>
+      }
+    </article>
+  </div>
+
+  <article class="panel schedule-panel">
+    <div class="result-header">
+      <div>
+        <p class="section-label">Tabela de amortização</p>
+        <h2>Evolução das parcelas</h2>
+      </div>
+      @if (amortizationSchedule.length) {
+        <span class="status-chip">{{ amortizationSchedule.length }} parcelas</span>
+      }
+    </div>
+
+    @if (amortizationSchedule.length) {
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Parcela</th>
+              <th>Pagamento</th>
+              <th>Juros</th>
+              <th>Amortização</th>
+              <th>Saldo devedor</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of amortizationSchedule; track trackByInstallment($index, item)) {
+              <tr>
+                <td>{{ item.installment }}</td>
+                <td>{{ item.payment | currency: 'BRL' : 'symbol' : '1.2-2' }}</td>
+                <td>{{ item.interest | currency: 'BRL' : 'symbol' : '1.2-2' }}</td>
+                <td>{{ item.amortization | currency: 'BRL' : 'symbol' : '1.2-2' }}</td>
+                <td>{{ item.remainingBalance | currency: 'BRL' : 'symbol' : '1.2-2' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="empty-state compact">
+        <h3>Tabela aguardando cálculo</h3>
+        <p>A lista detalhada das parcelas aparece aqui depois da simulação.</p>
+      </div>
+    }
+  </article>
+</section>
