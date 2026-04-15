@@ -153,10 +153,13 @@
               <div class="installment-toggle__content">
                 <span class="installment-toggle__eyebrow">Parcela {{ item.installment }}</span>
                 <strong>{{ item.payment | currency: 'BRL' : 'symbol' : '1.2-2' }}</strong>
-                <small>Toque para {{ isInstallmentExpanded(item.installment) ? 'ocultar' : 'ver' }} detalhes</small>
+                <small>
+                  Toque para {{ isInstallmentExpanded(item.installment) ? 'ocultar' : 'ver' }}
+                  detalhes
+                </small>
               </div>
               <span class="installment-toggle__icon">
-                {{ isInstallmentExpanded(item.installment) ? '−' : '+' }}
+                {{ isInstallmentExpanded(item.installment) ? '-' : '+' }}
               </span>
             </button>
 
